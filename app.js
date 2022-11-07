@@ -1,9 +1,13 @@
+import { WaveGroup } from "./wavegroup.js";
+
 class App {
   constructor() {
     // 캔버스 생성
     this.canvas = document.createElement("canvas");
     this.ctx = this.canvas.getContext("2d");
     document.body.appendChild(this.canvas);
+
+    this.waveGroup = new WaveGroup();
 
     // resize 이벤트 걸어주기
     window.addEventListener("resize", this.resize.bind(this), false);
@@ -21,11 +25,14 @@ class App {
     this.canvas.width = this.stageWidth * 2;
     this.canvas.height = this.stageHeight * 2;
     this.ctx.scale(2, 2);
+
+    this.waveGroup.resize(this.stageWidth, this.stageHeight);
   }
 
   animate(t) {
     // 캔버스 클리어
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+    this.waveGroup.draw(this.ctx);
     requestAnimationFrame(this.animate.bind(this));
   }
 }
